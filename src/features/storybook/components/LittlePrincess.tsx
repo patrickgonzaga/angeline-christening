@@ -9,36 +9,42 @@ export const LittlePrincess: React.FC = () => {
       title: 'Our Sweet Angel Arrived',
       desc: 'Princess Angeline was born, wrapping our world in endless love, soft yawns, and tiny dreams.',
       icon: Heart,
+      image: '/assets/timeline-newborn.png',
     },
     {
       date: 'July 17, 2026',
-      title: 'Out of the Hospital and in to our forever home',
+      title: 'Out of the Hospital and into our forever home',
       desc: 'Leaving the hospital and entering her warm nursery, marking the start of our beautiful journey at home.',
       icon: Home,
-    },
-    {
-      date: 'July 23, 2026',
-      title: 'First Pediatrician Checkup',
-      desc: 'Her first official clinic visit. The doctor says she is doing fantastic, healthy, and growing strong!',
-      icon: Stethoscope,
-    },
-    {
-      date: 'July 20, 2026',
-      title: 'Crying at 2am',
-      desc: 'Welcoming the late-night feeds and midnight diaper changes—exhausting but full of quiet, precious parent-daughter bonding.',
-      icon: Moon,
+      image: '/assets/timeline-home.png',
     },
     {
       date: 'July 20, 2026',
       title: 'Her First Sponge Bath',
       desc: 'Splash, splash! A tiny, gentle sponge bath that left her feeling fresh, clean, and wrapped in warm, cozy towels.',
       icon: Sparkles,
+      image: '/assets/timeline-bath.png',
+    },
+    {
+      date: 'July 20, 2026',
+      title: 'Crying at 2am',
+      desc: 'Welcoming the late-night feeds and midnight diaper changes—exhausting but full of quiet, precious parent-daughter bonding.',
+      icon: Moon,
+      image: '/assets/timeline-lullaby.png',
+    },
+    {
+      date: 'July 23, 2026',
+      title: 'First Pediatrician Checkup',
+      desc: 'Her first official clinic visit. The doctor says she is doing fantastic, healthy, and growing strong!',
+      icon: Stethoscope,
+      image: '/assets/timeline-checkup.png',
     },
     {
       date: 'August 16, 2026',
       title: 'Her Holy Christening',
       desc: 'Consecrated under God’s grace and surrounded by the love of her parents, family, and godparents.',
       icon: Calendar,
+      image: '/assets/baby.jpg',
     },
   ];
 
@@ -127,7 +133,7 @@ export const LittlePrincess: React.FC = () => {
             <p className="font-sans text-xs text-plum/50 italic">Milestones along her royal journey</p>
           </div>
 
-          <div className="relative border-l border-rose-pink/20 max-w-2xl mx-auto pl-6 space-y-12 py-4">
+          <div className="relative border-l-2 border-rose-pink/25 max-w-3xl mx-auto pl-6 sm:pl-8 space-y-10 py-4">
             {[...timelineEvents]
               .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
               .map((event, index) => {
@@ -141,14 +147,35 @@ export const LittlePrincess: React.FC = () => {
                     transition={{ duration: 0.6, delay: index * 0.15 }}
                     className="relative"
                   >
-                    <span className="absolute -left-[37px] top-1.5 flex items-center justify-center bg-white border border-gold text-gold rounded-full w-6 h-6 shadow-sm z-10 hover:scale-110 transition-transform">
+                    <span className="absolute -left-[37px] sm:-left-[45px] top-4 flex items-center justify-center bg-white border-2 border-gold text-gold rounded-full w-7 h-7 shadow-md z-10 hover:scale-110 transition-transform">
                       <Icon className="w-3.5 h-3.5" />
                     </span>
 
-                    <div className="p-6 rounded-2xl bg-white/50 border border-rose-pink/15 hover:border-gold/30 hover:bg-white/80 transition-all shadow-sm">
-                      <span className="font-sans text-[10px] font-bold text-rose-pink uppercase tracking-widest">{event.date}</span>
-                      <h4 className="font-sans font-bold text-base text-plum mt-1">{event.title}</h4>
-                      <p className="font-sans text-xs text-plum/70 mt-2 font-light leading-relaxed">{event.desc}</p>
+                    <div className="p-5 sm:p-6 rounded-2xl bg-white/70 border border-rose-pink/20 hover:border-gold/40 hover:bg-white/90 transition-all shadow-md flex flex-col md:flex-row gap-5 items-center">
+                      {event.image && (
+                        <div className="relative group flex-shrink-0 w-full md:w-44 h-44 rounded-xl overflow-hidden border border-gold/30 shadow-sm bg-plum/5">
+                          <img 
+                            src={event.image} 
+                            alt={event.title} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                          />
+                          <div className="absolute inset-0 bg-plum/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-center">
+                            <span className="text-[10px] text-white font-medium bg-plum/80 px-2 py-1 rounded-md shadow">
+                              Click to replace image
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      
+                      <div className="flex-1 text-left w-full">
+                        <div className="flex items-center justify-between">
+                          <span className="font-sans text-[10px] font-bold text-rose-pink uppercase tracking-widest bg-rose-pink/10 px-2.5 py-0.5 rounded-full">
+                            {event.date}
+                          </span>
+                        </div>
+                        <h4 className="font-sans font-bold text-base md:text-lg text-plum mt-2">{event.title}</h4>
+                        <p className="font-sans text-xs md:text-sm text-plum/75 mt-2 font-light leading-relaxed">{event.desc}</p>
+                      </div>
                     </div>
                   </motion.div>
                 );

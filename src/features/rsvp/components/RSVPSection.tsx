@@ -47,7 +47,7 @@ export const RSVPSection: React.FC<{ onRSVPSubmitSuccess: () => void }> = ({ onR
     {
       id: 'reception',
       title: 'Attend the Reception',
-      desc: 'Join us at Harmony Events Place for a joyful lunch celebration.',
+      desc: 'Join us at Queens Rush Kitchenette for a joyful lunch celebration.',
       icon: Calendar,
     },
     {

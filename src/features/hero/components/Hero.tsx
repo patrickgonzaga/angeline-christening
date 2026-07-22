@@ -103,7 +103,7 @@ export const Hero: React.FC = () => {
             <MapPin className="w-6 h-6 text-rose-pink" />
             <div>
               <h4 className="text-[10px] uppercase font-bold text-plum/50 font-sans tracking-widest">Locations</h4>
-              <p className="text-sm font-bold text-plum font-sans truncate">St. Columban & Harmony</p>
+              <p className="text-sm font-bold text-plum font-sans truncate">St. Columban & Queens Rush</p>
             </div>
           </div>
         </motion.div>
