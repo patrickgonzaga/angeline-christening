@@ -16,11 +16,11 @@ export const CeremonyDetails: React.FC = () => {
     },
     {
       type: 'The Reception',
-      name: 'Harmony Events Place',
-      address: 'Canal Road, Olongapo City, Philippines',
+      name: 'Queens Rush Kitchenette',
+      address: 'Olongapo City, Philippines',
       time: 'Lunch Reception follows immediately',
       details: 'Join us for a royal lunch, cake-cutting, and celebration program right after the church ceremony.',
-      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Harmony+Events+Place+Olongapo+City',
+      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Queens+Rush+Kitchenette+Olongapo+City',
       icon: Utensils,
       badge: 'Royal Banquet'
     }
