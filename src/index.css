@@ -108,3 +108,33 @@
     transform: rotate(360deg);
   }
 }
+
+/* Printable Ref Magnet Keepsake Card Styling */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  #printable-souvenir-card, #printable-souvenir-card * {
+    visibility: visible !important;
+  }
+  #printable-souvenir-card {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    box-shadow: none !important;
+    border: 2px solid #D4AF37 !important;
+    background: #FFF9F4 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    padding: 24px !important;
+    border-radius: 16px !important;
+  }
+  @page {
+    size: portrait;
+    margin: 1cm;
+  }
+}
+

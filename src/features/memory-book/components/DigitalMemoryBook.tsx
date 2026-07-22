@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Download, Sparkles } from 'lucide-react';
+import { BookOpen, Sparkles, Crown, Heart } from 'lucide-react';
 import { useBlessingStars } from '../../blessings/hooks/useBlessingStars';
 
 interface DigitalMemoryBookProps {
@@ -11,11 +11,16 @@ export const DigitalMemoryBook: React.FC<DigitalMemoryBookProps> = ({ refreshTri
   const [showPreview, setShowPreview] = useState(false);
   const { blessings, loading } = useBlessingStars(refreshTrigger);
 
+  const dbBlessingsWithMessages = blessings.filter(
+    (b) => b.message && b.message.trim().length > 0
+  );
+
   const formatBookDate = (dateStr?: string) => {
     if (!dateStr) return 'AUG 2026';
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-US', {
       month: 'short',
+      day: 'numeric',
       year: 'numeric',
     }).toUpperCase();
   };
@@ -43,13 +48,12 @@ export const DigitalMemoryBook: React.FC<DigitalMemoryBookProps> = ({ refreshTri
             </div>
 
             <h3 className="font-sans font-bold text-2xl text-plum leading-snug">
-              Every blessing, prayer, and wish will be bound in a royal memory book.
+              Every blessing, prayer, and wish bound in a royal memory book.
             </h3>
 
             <p className="font-sans text-xs md:text-sm leading-relaxed text-plum/70 font-light">
               We believe that the love and wisdom shared by our family and friends are the most valuable guides 
-              for Angeline. To preserve this magic, all submissions on the <em>Blessing Stars Wall</em> will be compiled into 
-              a custom fairy-tale themed keepsake memory book. 
+              for Angeline. To preserve this magic, all guest blessings on the <em>Blessing Stars Wall</em> are recorded into a custom fairytale-themed keepsake memory book.
             </p>
 
             <div className="space-y-3 font-sans text-xs text-plum/85">
@@ -60,7 +64,7 @@ export const DigitalMemoryBook: React.FC<DigitalMemoryBookProps> = ({ refreshTri
                 <span className="text-gold">✦</span> <span>Chronological directory of blessings, messages, and godparents</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-gold">✦</span> <span>Printable high-resolution PDF for the Gonzaga family archive</span>
+                <span className="text-gold">✦</span> <span>Live registry log of all guest responses for the Gonzaga family archive</span>
               </div>
             </div>
 
@@ -79,6 +83,7 @@ export const DigitalMemoryBook: React.FC<DigitalMemoryBookProps> = ({ refreshTri
             <motion.div 
               whileHover={{ rotateY: -15, scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 100 }}
+              onClick={() => setShowPreview(true)}
               className="relative w-48 h-64 bg-plum rounded-r-2xl border-l-[8px] border-gold/70 shadow-2xl flex flex-col justify-between p-6 text-white cursor-pointer select-none border border-gold/30"
               style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
             >
@@ -90,9 +95,7 @@ export const DigitalMemoryBook: React.FC<DigitalMemoryBookProps> = ({ refreshTri
               </div>
 
               <div className="flex justify-center my-4 opacity-50">
-                <svg className="w-12 h-12 text-gold" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M2 18h20v2H2zm2-2h16l-3-7-3 4-2-5-2 5-3-4z" />
-                </svg>
+                <Crown className="w-10 h-10 text-gold animate-pulse" />
               </div>
 
               <div className="text-center">
@@ -113,14 +116,14 @@ export const DigitalMemoryBook: React.FC<DigitalMemoryBookProps> = ({ refreshTri
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setShowPreview(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer"
+            className="fixed inset-0 bg-black/65 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer overflow-y-auto"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white border-2 border-gold text-plum rounded-3xl p-8 max-w-lg w-full shadow-2xl relative border-glow-gold cursor-default"
+              className="bg-white border-2 border-gold text-plum rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative border-glow-gold cursor-default my-8"
             >
               <div className="flex justify-between items-center border-b border-rose-pink/15 pb-4 mb-6">
                 <div className="flex items-center gap-2">
@@ -135,7 +138,7 @@ export const DigitalMemoryBook: React.FC<DigitalMemoryBookProps> = ({ refreshTri
                 </button>
               </div>
 
-              <div className="bg-ivory border border-rose-pink/15 p-6 rounded-2xl space-y-6 text-center select-none shadow-inner max-h-[380px] overflow-y-auto">
+              <div className="bg-ivory border border-rose-pink/15 p-6 rounded-2xl space-y-6 text-center select-none shadow-inner max-h-[400px] overflow-y-auto">
                 <div className="border-b border-rose-pink/10 pb-4">
                   <h4 className="font-cursive text-3xl text-gold font-semibold">Book Cover</h4>
                   <p className="font-sans text-[10px] text-plum/50 mt-1 uppercase tracking-widest">Page 1</p>
@@ -148,17 +151,22 @@ export const DigitalMemoryBook: React.FC<DigitalMemoryBookProps> = ({ refreshTri
 
                 <div className="space-y-4 border-b border-rose-pink/10 pb-4 text-left">
                   <h4 className="font-cursive text-2xl text-gold font-semibold text-center">Fairy-tale Blessings</h4>
-                  <p className="font-sans text-[10px] text-plum/50 text-center uppercase tracking-widest">Page 2</p>
+                  <p className="font-sans text-[10px] text-plum/50 text-center uppercase tracking-widest">
+                    {dbBlessingsWithMessages.length > 0 ? `Total ${dbBlessingsWithMessages.length} entries` : 'Page 2'}
+                  </p>
                   
                   {loading ? (
                     <p className="font-sans text-[11px] text-plum/50 italic text-center py-4">Summoning book entries...</p>
-                  ) : blessings.length === 0 ? (
-                    <p className="font-sans text-[11px] text-plum/50 italic text-center py-4">No blessings registered yet. Be the first to send a message!</p>
+                  ) : dbBlessingsWithMessages.length === 0 ? (
+                    <p className="font-sans text-[11px] text-plum/50 italic text-center py-4">No blessings registered in database yet. Be the first to send a message on the RSVP form!</p>
                   ) : (
-                    blessings.map((blessing, idx) => (
+                    dbBlessingsWithMessages.map((blessing, idx) => (
                       <div key={blessing.id || blessing.reference_number || idx} className="p-3 bg-white border border-rose-pink/10 rounded-xl space-y-1">
                         <div className="flex justify-between text-[10px] font-sans font-bold text-plum/50">
-                          <span className="uppercase">{blessing.name}</span>
+                          <span className="uppercase flex items-center gap-1">
+                            <Heart size={10} className="text-gold fill-gold" />
+                            {blessing.name}
+                          </span>
                           <span>{formatBookDate(blessing.created_at)}</span>
                         </div>
                         <p className="font-sans text-[11px] italic text-plum/75 leading-relaxed">“{blessing.message}”</p>
@@ -169,21 +177,9 @@ export const DigitalMemoryBook: React.FC<DigitalMemoryBookProps> = ({ refreshTri
 
                 <div className="text-center pt-2">
                   <span className="font-sans text-[10px] italic text-plum/40">
-                    {blessings.length > 0 ? 'And many more magical blessings...' : 'Waiting for sweet wishes to fill these pages...'}
+                    {dbBlessingsWithMessages.length > 0 ? 'Gonzaga Royal Family Archives' : 'Waiting for sweet wishes to fill these pages...'}
                   </span>
                 </div>
-              </div>
-
-              <div className="flex gap-4 mt-6">
-                <button
-                  onClick={() => {
-                    window.print();
-                  }}
-                  className="flex-1 py-3 bg-plum hover:bg-plum/90 border border-plum text-white font-sans font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <Download size={14} />
-                  Download PDF (Mock)
-                </button>
               </div>
 
             </motion.div>
