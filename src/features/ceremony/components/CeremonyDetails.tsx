@@ -16,13 +16,13 @@ export const CeremonyDetails: React.FC = () => {
     },
     {
       type: 'The Reception',
-      name: 'Queens Rush Kitchenette',
+      name: 'Marz Unlimited Shabu Shabu',
       address: 'Olongapo City, Philippines',
       time: 'Lunch Reception follows immediately',
-      details: 'Join us for a royal lunch, cake-cutting, and celebration program right after the church ceremony.',
-      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Queens+Rush+Kitchenette+Olongapo+City',
+      details: 'Join us for a delicious shabu-shabu feast, cake-cutting, and celebration program right after the church ceremony.',
+      mapUrl: 'https://www.google.com/maps/search/?api=1&query=Marz+Unlimited+Shabu+Shabu+Olongapo+City',
       icon: Utensils,
-      badge: 'Royal Banquet'
+      badge: 'Shabu Shabu Banquet'
     }
   ];
 
