@@ -5,6 +5,7 @@ import { AnimatedClouds } from '../shared/components/AnimatedClouds';
 import { Hero } from '../features/hero';
 import { LittlePrincess } from '../features/storybook';
 import { CeremonyDetails } from '../features/ceremony';
+import { GodparentsSection } from '../features/godparents';
 import { RSVPSection } from '../features/rsvp';
 import { BlessingStarsWall } from '../features/blessings';
 import { DigitalMemoryBook } from '../features/memory-book';
@@ -34,6 +35,7 @@ const App: React.FC = () => {
         <Hero />
         <LittlePrincess />
         <CeremonyDetails />
+        <GodparentsSection refreshTrigger={refreshTrigger} />
         <RSVPSection onRSVPSubmitSuccess={handleRSVPSubmitSuccess} />
         <BlessingStarsWall refreshTrigger={refreshTrigger} />
         <DigitalMemoryBook refreshTrigger={refreshTrigger} />

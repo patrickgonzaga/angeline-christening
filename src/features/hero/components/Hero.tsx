@@ -96,14 +96,14 @@ export const Hero: React.FC = () => {
             <Clock className="w-6 h-6 text-rose-pink" />
             <div>
               <h4 className="text-[10px] uppercase font-bold text-plum/50 font-sans tracking-widest">Time</h4>
-              <p className="text-sm font-bold text-plum font-sans">10:00 AM Manila</p>
+              <p className="text-sm font-bold text-plum font-sans">10:00 AM</p>
             </div>
           </div>
           <div className="flex items-center gap-3 p-4 rounded-xl bg-white/60 backdrop-blur-sm border border-gold/20 shadow-sm text-left">
             <MapPin className="w-6 h-6 text-rose-pink" />
             <div>
               <h4 className="text-[10px] uppercase font-bold text-plum/50 font-sans tracking-widest">Locations</h4>
-              <p className="text-sm font-bold text-plum font-sans truncate">St. Columban & Queens Rush</p>
+              <p className="text-sm font-bold text-plum font-sans truncate">St. Columban & Marz Unlimited</p>
             </div>
           </div>
         </motion.div>
