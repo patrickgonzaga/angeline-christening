@@ -27,7 +27,14 @@ export const CeremonyDetails: React.FC = () => {
   ];
 
   return (
-    <section id="ceremony-details" className="relative py-24 px-4 bg-gradient-to-b from-ivory to-blush/15 overflow-hidden">
+    <section id="ceremony-details" className="relative py-24 px-4 overflow-hidden"
+      style={{ background: 'linear-gradient(160deg, rgba(255,249,244,1) 0%, rgba(239,163,200,0.10) 50%, rgba(248,215,232,0.15) 100%)' }}
+    >
+      {/* Princess pattern watermark */}
+      <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: 'url(/assets/princess-bg-pattern.png)', backgroundSize: '480px auto', backgroundRepeat: 'repeat', opacity: 0.2 }} />
+      {/* Decorative corner glow blobs */}
+      <div className="absolute top-0 right-0 w-80 h-80 bg-rose-pink/8 rounded-full blur-3xl pointer-events-none z-0" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-gold/6 rounded-full blur-3xl pointer-events-none z-0" />
       
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-48 h-48 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-0 w-64 h-64 bg-rose-pink/5 rounded-full blur-3xl pointer-events-none" />

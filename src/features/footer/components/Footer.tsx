@@ -27,6 +27,8 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="relative bg-plum text-white pt-16 pb-12 px-4 overflow-hidden border-t border-gold/30">
+      {/* Princess pattern - screen blend for dark footer */}
+      <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: 'url(/assets/princess-bg-pattern.png)', backgroundSize: '450px auto', backgroundRepeat: 'repeat', opacity: 0.2, mixBlendMode: 'screen' }} />
       
       <div className="absolute top-10 left-1/4 text-gold/10 text-xl animate-pulse">✦</div>
       <div className="absolute bottom-10 right-1/4 text-gold/10 text-xl animate-pulse" style={{ animationDelay: '1.5s' }}>✦</div>

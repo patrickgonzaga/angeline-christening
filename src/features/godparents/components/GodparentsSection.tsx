@@ -23,7 +23,13 @@ export const GodparentsSection: React.FC<GodparentsSectionProps> = ({ refreshTri
   const totalCount = godparents.length;
 
   return (
-    <section id="godparents" className="relative py-24 px-4 bg-gradient-to-b from-ivory via-blush/10 to-ivory overflow-hidden">
+    <section id="godparents" className="relative py-24 px-4 overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, rgba(255,249,244,1) 0%, rgba(212,175,55,0.07) 50%, rgba(248,215,232,0.15) 100%)' }}
+    >
+      {/* Princess pattern watermark */}
+      <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: 'url(/assets/princess-bg-pattern.png)', backgroundSize: '550px auto', backgroundRepeat: 'repeat', opacity: 0.2 }} />
+      {/* Top golden shimmer line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent pointer-events-none z-0" />
       
       {/* Background Decorative Elements */}
       <div className="absolute top-1/3 left-10 text-gold/15 text-5xl pointer-events-none select-none">✦</div>

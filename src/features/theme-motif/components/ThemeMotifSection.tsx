@@ -11,7 +11,11 @@ export const ThemeMotifSection: React.FC = () => {
   ];
 
   return (
-    <section id="theme-motif" className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section id="theme-motif" className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, rgba(248,215,232,0.20) 0%, rgba(255,249,244,1) 45%, rgba(205,180,219,0.15) 100%)' }}
+    >
+      {/* Princess pattern watermark */}
+      <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: 'url(/assets/princess-bg-pattern.png)', backgroundSize: '520px auto', backgroundRepeat: 'repeat', opacity: 0.2 }} />
       {/* Background decoration */}
       <div className="absolute top-1/2 left-0 w-64 h-64 bg-rose-pink/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
       <div className="absolute top-1/2 right-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />

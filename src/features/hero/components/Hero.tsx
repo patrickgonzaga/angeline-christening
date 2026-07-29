@@ -12,7 +12,16 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-between pt-16 pb-20 px-4 overflow-hidden bg-gradient-to-b from-blush/20 via-ivory to-blush/10">
+    <section className="relative min-h-screen flex flex-col items-center justify-between pt-16 pb-20 px-4 overflow-hidden"
+      style={{
+        backgroundImage: 'url(/assets/princess-bg-hero.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* Soft overlay to keep content readable over the background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-blush/40 via-ivory/60 to-ivory/90 pointer-events-none z-0" />
       
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ivory to-transparent pointer-events-none z-10" />
 
