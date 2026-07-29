@@ -65,7 +65,13 @@ export const RSVPSection: React.FC<{ onRSVPSubmitSuccess: () => void }> = ({ onR
   ];
 
   return (
-    <section id="rsvp" className="relative py-24 px-4 bg-gradient-to-b from-blush/15 to-ivory overflow-hidden">
+    <section id="rsvp" className="relative py-24 px-4 overflow-hidden"
+      style={{ background: 'linear-gradient(160deg, rgba(248,215,232,0.20) 0%, rgba(255,249,244,1) 40%, rgba(205,180,219,0.12) 100%)' }}
+    >
+      {/* Princess pattern watermark */}
+      <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: 'url(/assets/princess-bg-pattern.png)', backgroundSize: '480px auto', backgroundRepeat: 'repeat', opacity: 0.2 }} />
+      {/* Top and bottom gold divider lines */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-rose-pink/40 to-transparent pointer-events-none z-0" />
       
       <div className="absolute top-10 right-10 text-gold/15 text-5xl pointer-events-none select-none">✦</div>
       <div className="absolute bottom-10 left-10 text-gold/15 text-5xl pointer-events-none select-none">✦</div>

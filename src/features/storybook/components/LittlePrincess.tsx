@@ -77,7 +77,13 @@ export const LittlePrincess: React.FC = () => {
   };
 
   return (
-    <section id="princess-story" className="relative py-24 px-4 bg-gradient-to-b from-blush/10 to-ivory overflow-hidden">
+    <section id="princess-story" className="relative py-24 px-4 overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, rgba(205,180,219,0.12) 0%, rgba(248,215,232,0.18) 40%, rgba(255,249,244,1) 100%)' }}
+    >
+      {/* Princess pattern watermark */}
+      <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: 'url(/assets/princess-bg-pattern.png)', backgroundSize: '500px auto', backgroundRepeat: 'repeat', opacity: 0.2 }} />
+      {/* Soft radial glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-lavender/10 rounded-full blur-3xl pointer-events-none z-0" />
       
       {/* Decorative Top Separator */}
       <div className="flex justify-center mb-12">

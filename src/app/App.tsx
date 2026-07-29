@@ -23,6 +23,18 @@ const App: React.FC = () => {
 
   return (
     <div className="relative min-h-screen bg-ivory text-plum font-sans selection:bg-rose-pink/30">
+      {/* Princess Pattern Background - fixed full-page watermark */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage: 'url(/assets/princess-bg-pattern.png)',
+          backgroundSize: '600px auto',
+          backgroundRepeat: 'repeat',
+          opacity: 0.06,
+          mixBlendMode: 'multiply',
+        }}
+      />
+
       {/* Global Background Visuals */}
       <Sparkles />
       <FallingPetals />

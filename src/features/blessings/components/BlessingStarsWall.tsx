@@ -25,6 +25,8 @@ export const BlessingStarsWall: React.FC<BlessingStarsWallProps> = ({ refreshTri
 
   return (
     <section id="blessings-wall" className="relative py-24 bg-plum text-white overflow-hidden min-h-[500px]">
+      {/* Princess pattern - screen blend for dark bg */}
+      <div className="absolute inset-0 pointer-events-none z-[1]" style={{ backgroundImage: 'url(/assets/princess-bg-pattern.png)', backgroundSize: '500px auto', backgroundRepeat: 'repeat', opacity: 0.2, mixBlendMode: 'screen' }} />
       
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#714f73] via-[#3d273f] to-plum pointer-events-none z-0" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,_transparent_1px),_linear-gradient(90deg,_rgba(255,255,255,0.02)_1px,_transparent_1px)] bg-[size:32px_32px] pointer-events-none z-0" />

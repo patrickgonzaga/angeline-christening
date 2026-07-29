@@ -26,7 +26,13 @@ export const DigitalMemoryBook: React.FC<DigitalMemoryBookProps> = ({ refreshTri
   };
 
   return (
-    <section id="memory-book" className="relative py-24 px-4 bg-gradient-to-b from-blush/10 to-ivory overflow-hidden">
+    <section id="memory-book" className="relative py-24 px-4 overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, rgba(255,249,244,1) 0%, rgba(205,180,219,0.10) 50%, rgba(248,215,232,0.12) 100%)' }}
+    >
+      {/* Princess pattern watermark */}
+      <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: 'url(/assets/princess-bg-pattern.png)', backgroundSize: '480px auto', backgroundRepeat: 'repeat', opacity: 0.2 }} />
+      {/* Soft center glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-lavender/8 rounded-full blur-3xl pointer-events-none z-0" />
       
       <div className="absolute top-10 left-10 w-24 h-24 bg-rose-pink/5 rounded-full blur-2xl pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-32 h-32 bg-gold/5 rounded-full blur-2xl pointer-events-none" />
