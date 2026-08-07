@@ -16,7 +16,8 @@ const PUBLIC_ASSET_IMAGES: GalleryImage[] = [
   { id: 5, url: '/assets/timeline-home.png', caption: 'Out of the Hospital & Into Our Forever Home' },
   { id: 6, url: '/assets/timeline-bath.png', caption: 'Her First Sponge Bath' },
   { id: 7, url: '/assets/timeline-lullaby.png', caption: 'Sweet Dreams & Lullabies' },
-  { id: 8, url: '/assets/timeline-checkup.png', caption: 'First Pediatrician Checkup' }
+  { id: 8, url: '/assets/timeline-checkup.png', caption: 'First Pediatrician Checkup' },
+  { id: 9, url: '/assets/Thanks Ninong.jpeg', caption: 'Thank You, Ninong' }
 ];
 
 export function usePhotoGallery() {
