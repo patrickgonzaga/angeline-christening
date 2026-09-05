@@ -142,10 +142,10 @@ export const Hero: React.FC = () => {
           </button>
           
           <button
-            onClick={() => scrollToSection('rsvp')}
+            onClick={() => scrollToSection('gallery')}
             className="bg-plum hover:bg-plum/90 transition-all cursor-pointer font-sans font-bold text-white text-sm uppercase tracking-widest px-8 py-4 rounded-full shadow-lg border border-rose-pink/30 hover:shadow-rose-pink/20 hover:shadow-xl"
           >
-            RSVP Now
+            View Photo Gallery
           </button>
         </motion.div>
 

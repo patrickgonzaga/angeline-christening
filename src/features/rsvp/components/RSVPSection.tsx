@@ -1,408 +1,251 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Loader, User, Mail, Phone, Users, MessageSquare, Gift, Heart, Calendar } from 'lucide-react';
-import { useRSVPForm } from '../hooks/useRSVPForm';
+import { Heart, MessageSquare, BookOpen, Camera, Search, Sparkles, Check, Crown } from 'lucide-react';
+import { STATIC_RSVPS } from '../../../data/rsvps';
+import type { RSVPResponse } from '../../../domain/models/rsvp';
 
-interface SelectionCard {
-  id: string;
-  title: string;
-  desc: string;
-  icon: React.ComponentType<any>;
-}
+export const RSVPSection: React.FC<{ onRSVPSubmitSuccess?: () => void }> = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchedResult, setSearchedResult] = useState<RSVPResponse | null>(null);
+  const [hasSearched, setHasSearched] = useState(false);
 
-export const RSVPSection: React.FC<{ onRSVPSubmitSuccess: () => void }> = ({ onRSVPSubmitSuccess }) => {
-  const {
-    selectedOptions,
-    name,
-    email,
-    phone,
-    companions,
-    message,
-    giftIntention,
-    preferredRole,
-    godparentConfirm,
-    isLoading,
-    formError,
-    successData,
-    setName,
-    setEmail,
-    setPhone,
-    setCompanions,
-    setMessage,
-    setGiftIntention,
-    setPreferredRole,
-    setGodparentConfirm,
-    handleCardToggle,
-    handleSubmit,
-    handleReset
-  } = useRSVPForm(onRSVPSubmitSuccess);
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) {
+      setSearchedResult(null);
+      setHasSearched(false);
+      return;
+    }
 
-  const selectionCards: SelectionCard[] = [
-    {
-      id: 'ninong_ninang',
-      title: 'Become a Ninong/Ninang',
-      desc: 'Answer the call to guide Princess Angeline in faith and love as a godparent.',
-      icon: Heart,
-    },
-    {
-      id: 'reception',
-      title: 'Attend the Reception',
-      desc: 'Join us at Marz Unlimited Shabu Shabu for a joyful lunch celebration.',
-      icon: Calendar,
-    },
-    {
-      id: 'gift',
-      title: 'Send a Gift',
-      desc: 'Indicate your gift details to help us set up her registry catalog.',
-      icon: Gift,
-    },
-    {
-      id: 'blessing',
-      title: 'Send a Blessing',
-      desc: 'Offer your prayers and wishes to be added to her glowing memory star wall.',
-      icon: MessageSquare,
-    },
-  ];
+    const q = searchQuery.trim().toLowerCase();
+    const match = STATIC_RSVPS.find(
+      (r) =>
+        r.reference_number?.toLowerCase() === q ||
+        r.name.toLowerCase().includes(q) ||
+        r.email?.toLowerCase() === q
+    );
+
+    setSearchedResult(match || null);
+    setHasSearched(true);
+  };
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const ninongCount = STATIC_RSVPS.filter((r) => r.preferred_role === 'Ninong').length;
+  const ninangCount = STATIC_RSVPS.filter((r) => r.preferred_role === 'Ninang').length;
+  const blessingCount = STATIC_RSVPS.filter((r) => r.message && r.message.trim().length > 0).length;
+  const totalGuests = STATIC_RSVPS.reduce((acc, r) => {
+    if (r.options?.includes('reception')) {
+      return acc + 1 + (r.companions || 0);
+    }
+    return acc;
+  }, 0);
 
   return (
-    <section id="rsvp" className="relative py-24 px-4 overflow-hidden"
-      style={{ background: 'linear-gradient(160deg, rgba(248,215,232,0.20) 0%, rgba(255,249,244,1) 40%, rgba(205,180,219,0.12) 100%)' }}
+    <section
+      id="rsvp"
+      className="relative py-24 px-4 overflow-hidden"
+      style={{
+        background:
+          'linear-gradient(160deg, rgba(248,215,232,0.25) 0%, rgba(255,249,244,1) 40%, rgba(205,180,219,0.18) 100%)',
+      }}
     >
       {/* Princess pattern watermark */}
-      <div className="absolute inset-0 pointer-events-none z-0" style={{ backgroundImage: 'url(/assets/princess-bg-pattern.png)', backgroundSize: '480px auto', backgroundRepeat: 'repeat', opacity: 0.2 }} />
+      <div
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage: 'url(/assets/princess-bg-pattern.png)',
+          backgroundSize: '480px auto',
+          backgroundRepeat: 'repeat',
+          opacity: 0.2,
+        }}
+      />
       {/* Top and bottom gold divider lines */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-rose-pink/40 to-transparent pointer-events-none z-0" />
-      
+
       <div className="absolute top-10 right-10 text-gold/15 text-5xl pointer-events-none select-none">✦</div>
       <div className="absolute bottom-10 left-10 text-gold/15 text-5xl pointer-events-none select-none">✦</div>
 
       <div className="max-w-4xl mx-auto relative z-10">
-        
-        <div className="text-center mb-16">
-          <span className="font-sans text-[10px] md:text-xs font-bold uppercase tracking-widest text-gold bg-gold/10 px-4 py-1.5 rounded-full">Royal Invitation</span>
-          <h2 className="font-cursive text-5xl md:text-6xl text-plum mt-3 font-semibold">Join the Fairytale</h2>
-          <p className="font-sans text-xs md:text-sm text-plum/60 italic mt-2">Kindly respond before August 1, 2026</p>
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 font-sans text-[10px] md:text-xs font-bold uppercase tracking-widest text-gold bg-gold/10 border border-gold/25 px-4 py-1.5 rounded-full shadow-sm">
+            <Crown size={12} className="text-gold" />
+            Royal Decree • RSVPs Closed
+          </div>
+          <h2 className="font-cursive text-5xl md:text-6xl text-plum mt-3 font-semibold">
+            A Joyous Sacrament Celebrated
+          </h2>
+          <p className="font-sans text-xs md:text-sm text-plum/70 italic mt-2">
+            The Christening of Princess Angeline Patrice took place on Sunday, August 16, 2026
+          </p>
         </div>
 
-        <AnimatePresence mode="wait">
-          {!successData ? (
-            <motion.div
-              key="form"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              className="p-8 md:p-12 rounded-3xl bg-white/80 border border-gold/20 shadow-lg border-glow-gold relative"
+        {/* Closed Announcement Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="p-8 md:p-12 rounded-3xl bg-white/85 border-2 border-gold/30 shadow-xl border-glow-gold relative overflow-hidden text-center"
+        >
+          {/* Subtle decorative blurs */}
+          <div className="absolute -top-12 -left-12 w-32 h-32 bg-blush/20 rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute -bottom-12 -right-12 w-32 h-32 bg-gold/10 rounded-full blur-2xl pointer-events-none" />
+
+          <div className="flex justify-center mb-4">
+            <span className="p-4 rounded-full bg-blush/30 border border-gold/30 text-rose-pink shadow-inner inline-flex items-center justify-center">
+              <Sparkles className="w-8 h-8 text-gold" />
+            </span>
+          </div>
+
+          <h3 className="font-cursive text-3xl md:text-4xl text-plum font-semibold mb-3">
+            Our Hearts Are Filled With Gratitude!
+          </h3>
+
+          <p className="font-sans text-xs md:text-sm text-plum/75 leading-relaxed max-w-2xl mx-auto font-light mb-8">
+            Thank you to all our cherished family, honored godparents, and dear friends who joined us in prayer,
+            love, and celebration. Online RSVPs are now officially closed as the christening ceremony and reception
+            have completed. All submitted blessings and guest responses are permanently enshrined in Princess Angeline's
+            Royal Archives and keepsake memory book.
+          </p>
+
+          {/* Celebration Stat Badges */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-8">
+            <div className="p-4 rounded-2xl bg-ivory/80 border border-gold/25 shadow-sm flex flex-col items-center">
+              <Heart className="w-5 h-5 text-rose-pink mb-1.5" />
+              <span className="font-sans font-bold text-2xl text-plum">{ninongCount + ninangCount}</span>
+              <span className="font-sans text-[10px] text-plum/60 uppercase tracking-wider mt-0.5">Godparents</span>
+              <span className="text-[9px] text-rose-pink font-semibold">{ninongCount} Ninongs • {ninangCount} Ninangs</span>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-ivory/80 border border-gold/25 shadow-sm flex flex-col items-center">
+              <MessageSquare className="w-5 h-5 text-rose-pink mb-1.5" />
+              <span className="font-sans font-bold text-2xl text-plum">{blessingCount}</span>
+              <span className="font-sans text-[10px] text-plum/60 uppercase tracking-wider mt-0.5">Blessings Sent</span>
+              <span className="text-[9px] text-gold font-semibold">Stars on Memory Wall</span>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-ivory/80 border border-gold/25 shadow-sm flex flex-col items-center">
+              <Crown className="w-5 h-5 text-rose-pink mb-1.5" />
+              <span className="font-sans font-bold text-2xl text-plum">{totalGuests}</span>
+              <span className="font-sans text-[10px] text-plum/60 uppercase tracking-wider mt-0.5">Reception Guests</span>
+              <span className="text-[9px] text-plum/50 font-semibold">Marz Unlimited</span>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-ivory/80 border border-gold/25 shadow-sm flex flex-col items-center">
+              <BookOpen className="w-5 h-5 text-rose-pink mb-1.5" />
+              <span className="font-sans font-bold text-2xl text-plum">{STATIC_RSVPS.length}</span>
+              <span className="font-sans text-[10px] text-plum/60 uppercase tracking-wider mt-0.5">Total Responses</span>
+              <span className="text-[9px] text-rose-pink font-semibold">Logged into Archives</span>
+            </div>
+          </div>
+
+          {/* Quick Action Navigation Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              onClick={() => scrollToSection('blessings')}
+              className="btn-shimmer cursor-pointer font-sans font-bold text-plum text-xs uppercase tracking-widest px-6 py-3.5 rounded-full border border-gold/40 shadow-sm flex items-center gap-2"
             >
-              <form onSubmit={handleSubmit} className="space-y-8">
-                
-                <div>
-                  <label className="block text-plum font-sans font-bold text-sm tracking-wide mb-4 text-center">
-                    Select Your Response (Select all that apply)
-                  </label>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {selectionCards.map((card) => {
-                      const isSelected = selectedOptions.includes(card.id);
-                      const Icon = card.icon;
-                      return (
-                        <div
-                          key={card.id}
-                          onClick={() => handleCardToggle(card.id)}
-                          className={`relative p-6 rounded-2xl border text-left cursor-pointer select-none transition-all duration-300 flex flex-col justify-between h-44 ${
-                            isSelected
-                              ? 'bg-rose-pink/10 border-gold border-glow-pink scale-[1.03] shadow-md shadow-rose-pink/5'
-                              : 'bg-white border-rose-pink/20 hover:border-gold/50 hover:bg-ivory/30'
-                          }`}
-                        >
-                          <div className="flex justify-between items-start">
-                            <span className={`p-2.5 rounded-xl ${isSelected ? 'bg-rose-pink text-white' : 'bg-blush/20 text-rose-pink'}`}>
-                              <Icon className="w-5 h-5" />
-                            </span>
-                            
-                            <span className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all ${
-                              isSelected ? 'bg-gold border-gold text-plum' : 'border-rose-pink/30 bg-transparent'
-                            }`}>
-                              {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                            </span>
-                          </div>
+              <Sparkles size={14} className="text-gold" />
+              Blessing Stars Wall
+            </button>
 
-                          <div className="mt-4">
-                            <h4 className="font-sans font-bold text-sm text-plum">{card.title}</h4>
-                            <p className="font-sans text-[11px] text-plum/60 mt-1 leading-normal">{card.desc}</p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {formError && (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-sans text-center"
-                  >
-                    ⚠️ {formError}
-                  </motion.div>
-                )}
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-rose-pink/10">
-                  
-                  <div className="flex flex-col">
-                    <label htmlFor="fullName" className="font-sans font-semibold text-xs text-plum/70 mb-1.5">Full Name</label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-pink" />
-                      <input
-                        type="text"
-                        id="fullName"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Patrick Gonzaga"
-                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-rose-pink/20 focus:border-gold focus:ring-1 focus:ring-gold bg-white/50 text-sm font-sans outline-none transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label htmlFor="emailAddress" className="font-sans font-semibold text-xs text-plum/70 mb-1.5">
-                      Email Address <span className="text-plum/40 font-normal">(Optional)</span>
-                    </label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-pink" />
-                      <input
-                        type="email"
-                        id="emailAddress"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="patrick@example.com"
-                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-rose-pink/20 focus:border-gold focus:ring-1 focus:ring-gold bg-white/50 text-sm font-sans outline-none transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label htmlFor="mobileNumber" className="font-sans font-semibold text-xs text-plum/70 mb-1.5">
-                      Mobile Number <span className="text-plum/40 font-normal">(Optional)</span>
-                    </label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-pink" />
-                      <input
-                        type="tel"
-                        id="mobileNumber"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="0917-123-4567"
-                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-rose-pink/20 focus:border-gold focus:ring-1 focus:ring-gold bg-white/50 text-sm font-sans outline-none transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  {selectedOptions.includes('reception') && (
-                    <motion.div 
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      className="flex flex-col"
-                    >
-                      <label htmlFor="companionsCount" className="font-sans font-semibold text-xs text-plum/70 mb-1.5">Number of Companions</label>
-                      <div className="relative">
-                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-pink" />
-                        <select
-                          id="companionsCount"
-                          value={companions}
-                          onChange={(e) => setCompanions(parseInt(e.target.value))}
-                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-rose-pink/20 focus:border-gold focus:ring-1 focus:ring-gold bg-white/50 text-sm font-sans outline-none transition-colors appearance-none"
-                        >
-                          <option value={0}>No companions (Just me)</option>
-                          <option value={1}>1 companion</option>
-                          <option value={2}>2 companions</option>
-                          <option value={3}>3 companions</option>
-                          <option value={4}>4 companions</option>
-                        </select>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {selectedOptions.includes('gift') && (
-                    <motion.div 
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      className="flex flex-col md:col-span-2"
-                    >
-                      <label htmlFor="giftDesc" className="font-sans font-semibold text-xs text-plum/70 mb-1.5">Gift Intention Details</label>
-                      <input
-                        type="text"
-                        id="giftDesc"
-                        value={giftIntention}
-                        onChange={(e) => setGiftIntention(e.target.value)}
-                        placeholder="e.g., Baby stroller, diapers, fairy-tale picture book, etc."
-                        className="w-full px-4 py-3 rounded-xl border border-rose-pink/20 focus:border-gold focus:ring-1 focus:ring-gold bg-white/50 text-sm font-sans outline-none transition-colors"
-                      />
-                    </motion.div>
-                  )}
-
-                  {selectedOptions.includes('ninong_ninang') && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      className="flex flex-col md:col-span-2 space-y-4 p-5 rounded-2xl bg-gold/5 border border-gold/25"
-                    >
-                      <div>
-                        <span className="block font-sans font-bold text-xs text-plum mb-2">Preferred Godparent Role</span>
-                        <div className="flex gap-4">
-                          <label className="flex items-center gap-2 cursor-pointer font-sans text-xs text-plum font-semibold">
-                            <input
-                              type="radio"
-                              name="role"
-                              value="Ninong"
-                              checked={preferredRole === 'Ninong'}
-                              onChange={() => setPreferredRole('Ninong')}
-                              className="accent-rose-pink w-4 h-4 cursor-pointer"
-                            />
-                            Ninong (Godfather)
-                          </label>
-                          <label className="flex items-center gap-2 cursor-pointer font-sans text-xs text-plum font-semibold">
-                            <input
-                              type="radio"
-                              name="role"
-                              value="Ninang"
-                              checked={preferredRole === 'Ninang'}
-                              onChange={() => setPreferredRole('Ninang')}
-                              className="accent-rose-pink w-4 h-4 cursor-pointer"
-                            />
-                            Ninang (Godmother)
-                          </label>
-                        </div>
-                      </div>
-
-                      <label className="flex items-start gap-2 cursor-pointer select-none">
-                        <input
-                          type="checkbox"
-                          checked={godparentConfirm}
-                          onChange={(e) => setGodparentConfirm(e.target.checked)}
-                          className="accent-rose-pink w-4 h-4 mt-0.5 cursor-pointer"
-                        />
-                        <span className="font-sans text-[11px] text-plum/70 leading-relaxed font-light">
-                          I graciously accept the spiritual responsibility of guiding Princess Angeline in Christian faith, character, and lifelong support.
-                        </span>
-                      </label>
-                    </motion.div>
-                  )}
-
-                  <div className="flex flex-col md:col-span-2">
-                    <label htmlFor="blessingMessage" className="font-sans font-semibold text-xs text-plum/70 mb-1.5">
-                      Your Blessing & Message {selectedOptions.includes('blessing') ? '(Required)' : '(Optional)'}
-                    </label>
-                    <textarea
-                      id="blessingMessage"
-                      rows={4}
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Write your prayers, blessings, and fairytale wishes for our little princess..."
-                      className="w-full px-4 py-3 rounded-xl border border-rose-pink/20 focus:border-gold focus:ring-1 focus:ring-gold bg-white/50 text-sm font-sans outline-none resize-none transition-colors"
-                    />
-                  </div>
-
-                </div>
-
-                <div className="text-center pt-4">
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="btn-shimmer cursor-pointer font-sans font-bold text-plum text-sm uppercase tracking-widest px-10 py-4.5 rounded-full shadow-lg border border-gold/50 min-w-[200px] flex items-center justify-center gap-2 mx-auto disabled:opacity-75 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader className="w-4 h-4 animate-spin text-plum" />
-                        Submitting Royal Scroll...
-                      </>
-                    ) : (
-                      'Submit Response'
-                    )}
-                  </button>
-                </div>
-
-              </form>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="success"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="p-8 md:p-12 rounded-3xl bg-white border-2 border-gold shadow-xl text-center border-glow-gold relative overflow-hidden"
+            <button
+              onClick={() => scrollToSection('memory-book')}
+              className="cursor-pointer font-sans font-bold text-plum bg-white hover:bg-ivory transition-colors text-xs uppercase tracking-widest px-6 py-3.5 rounded-full border border-gold/30 shadow-sm flex items-center gap-2"
             >
-              <div className="absolute -top-16 -left-16 w-36 h-36 bg-blush/20 rounded-full blur-2xl" />
-              <div className="absolute -bottom-16 -right-16 w-36 h-36 bg-blush/20 rounded-full blur-2xl" />
+              <BookOpen size={14} className="text-rose-pink" />
+              Digital Memory Book
+            </button>
 
-              <div className="flex justify-center mb-6">
-                <span className="flex items-center justify-center bg-gold border border-gold text-plum rounded-full w-16 h-16 shadow-inner animate-pulse">
-                  <Check className="w-8 h-8 stroke-[3]" />
-                </span>
-              </div>
+            <button
+              onClick={() => scrollToSection('gallery')}
+              className="cursor-pointer font-sans font-bold text-white bg-plum hover:bg-plum/90 transition-all text-xs uppercase tracking-widest px-6 py-3.5 rounded-full shadow-sm border border-plum/30 flex items-center gap-2"
+            >
+              <Camera size={14} className="text-gold" />
+              Christening Photo Gallery
+            </button>
+          </div>
 
-              <span className="font-sans text-[10px] font-bold text-gold uppercase tracking-widest bg-gold/10 px-4 py-1.5 rounded-full">Royal Decree</span>
-              <h3 className="font-cursive text-5xl text-plum mt-3 mb-2 font-semibold">Response Recorded!</h3>
-              <p className="font-sans text-xs text-plum/60 italic max-w-md mx-auto">
-                Thank you, {name}, for your response. Your place in Princess Angeline's fairytale has been logged in the royal scroll.
+          {/* Guest Royal Scroll Lookup Accordion */}
+          <div className="mt-10 pt-8 border-t border-rose-pink/15 max-w-lg mx-auto text-left">
+            <div className="text-center mb-3">
+              <span className="font-sans font-bold text-xs uppercase tracking-wider text-plum/70 flex items-center justify-center gap-1.5">
+                <Search size={13} className="text-rose-pink" /> Look Up Your Recorded Royal Scroll
+              </span>
+              <p className="font-sans text-[11px] text-plum/50 italic mt-0.5">
+                Enter your name or Royal Reference Code (e.g., ANG-N5S19)
               </p>
+            </div>
 
-              <div className="my-8 max-w-sm mx-auto p-5 rounded-2xl bg-ivory border border-gold/30 border-glow-gold">
-                <span className="font-sans text-[9px] uppercase font-bold text-rose-pink tracking-widest">Royal Scroll Code</span>
-                <p className="font-sans font-bold text-2xl text-plum mt-1 tracking-wider">{successData.refNo}</p>
-                <div className="mt-4 pt-3 border-t border-rose-pink/15 text-left space-y-2">
-                  <span className="font-sans font-bold text-[10px] text-plum/50 uppercase tracking-widest block">Automation En Route:</span>
-                  
-                  {successData.options.includes('ninong_ninang') && (
-                    <div className="flex items-center gap-2 text-xs font-sans text-plum/85">
-                      <span className="text-green-500">✓</span> <span>Godparent Invitation email queued</span>
-                    </div>
-                  )}
+            <form onSubmit={handleSearch} className="flex gap-2">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Name or Reference Code..."
+                className="flex-1 px-4 py-2.5 rounded-xl border border-rose-pink/25 focus:border-gold focus:ring-1 focus:ring-gold bg-white text-xs font-sans outline-none"
+              />
+              <button
+                type="submit"
+                className="px-5 py-2.5 rounded-xl bg-plum text-white font-sans text-xs font-bold uppercase tracking-wider hover:bg-plum/90 transition-colors cursor-pointer shrink-0"
+              >
+                Search
+              </button>
+            </form>
 
-                  {successData.options.includes('reception') && (
-                    <div className="flex items-center gap-2 text-xs font-sans text-plum/85">
-                      <span className="text-green-500">✓</span> <span>Reception Confirmation email queued</span>
-                    </div>
-                  )}
-
-                  {successData.options.includes('gift') && (
-                    <div className="flex items-center gap-2 text-xs font-sans text-plum/85">
-                      <span className="text-green-500">✓</span> <span>Gift Acknowledgement email queued</span>
-                    </div>
-                  )}
-
-                  {!successData.options.includes('ninong_ninang') && 
-                   !successData.options.includes('reception') && 
-                   !successData.options.includes('gift') && 
-                   successData.options.includes('blessing') && (
-                    <div className="flex items-center gap-2 text-xs font-sans text-plum/85">
-                      <span className="text-green-500">✓</span> <span>Thank You for Your Blessing email queued</span>
-                    </div>
-                  )}
-
-                  <div className="flex items-center gap-2 text-xs font-sans text-plum/85">
-                    <span className="text-green-500">✓</span> <span>Parents (Patrick & Family) notified via email</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <p className="font-sans text-[11px] text-plum/50 font-light max-w-sm mx-auto">
-                  A verification email has been dispatched to <strong>{email}</strong>. If you selected a blessing, check the <em>Blessing Stars Wall</em> below to see your star rise!
-                </p>
-                <button
-                  onClick={handleReset}
-                  className="font-sans font-bold text-xs uppercase tracking-widest text-rose-pink hover:text-gold transition-colors underline cursor-pointer"
+            <AnimatePresence>
+              {hasSearched && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mt-4"
                 >
-                  Submit Another Response
-                </button>
-              </div>
+                  {searchedResult ? (
+                    <div className="p-4 rounded-2xl bg-ivory border border-gold/40 space-y-2">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <span className="font-sans text-[9px] uppercase font-bold text-rose-pink tracking-widest">
+                            Royal Scroll Found
+                          </span>
+                          <h4 className="font-sans font-bold text-sm text-plum">{searchedResult.name}</h4>
+                          <p className="font-sans text-[10px] text-plum/60">
+                            Code: <strong className="text-gold">{searchedResult.reference_number}</strong>
+                          </p>
+                        </div>
+                        <span className="px-2 py-1 rounded-md bg-green-100 text-green-800 text-[10px] font-bold flex items-center gap-1">
+                          <Check size={12} /> Confirmed
+                        </span>
+                      </div>
 
-            </motion.div>
-          )}
-        </AnimatePresence>
+                      {searchedResult.preferred_role && (
+                        <p className="font-sans text-xs text-plum font-semibold">
+                          Role: <span className="text-rose-pink font-bold">{searchedResult.preferred_role}</span>
+                        </p>
+                      )}
 
+                      {searchedResult.message && (
+                        <div className="p-2.5 rounded-lg bg-white border border-rose-pink/10 italic text-[11px] text-plum/80 leading-relaxed">
+                          "{searchedResult.message}"
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="p-4 rounded-2xl bg-rose-pink/5 border border-rose-pink/20 text-center font-sans text-xs text-plum/70">
+                      No response found matching "{searchQuery}". Please check the spelling or reference code.
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
       </div>
-
     </section>
   );
 };

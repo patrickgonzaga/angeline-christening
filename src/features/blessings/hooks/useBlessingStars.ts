@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { rsvpRepository } from '../../../domain/repositories/supabase-rsvp-repository';
+import { rsvpRepository } from '../../../domain/repositories/static-rsvp-repository';
 import type { RSVPResponse } from '../../../domain/models/rsvp';
 
 export interface RSVPStats {
