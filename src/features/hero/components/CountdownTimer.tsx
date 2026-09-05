@@ -39,6 +39,25 @@ export const CountdownTimer: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const isEventPassed = targetDate <= new Date().getTime();
+
+  if (isEventPassed) {
+    return (
+      <div className="flex flex-col items-center justify-center my-6 px-4">
+        <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-gold/40 shadow-md border-glow-gold">
+          <span className="text-gold text-base animate-pulse">✦</span>
+          <span className="font-sans text-xs md:text-sm font-bold text-plum uppercase tracking-widest">
+            Christened with Love • August 16, 2026
+          </span>
+          <span className="text-gold text-base animate-pulse">✦</span>
+        </div>
+        <p className="font-cursive text-2xl md:text-3xl text-plum/90 mt-2 font-medium">
+          Welcome to the Christian World, Princess Angeline!
+        </p>
+      </div>
+    );
+  }
+
   const timeItems = [
     { label: 'Days', value: timeLeft.days },
     { label: 'Hours', value: timeLeft.hours },

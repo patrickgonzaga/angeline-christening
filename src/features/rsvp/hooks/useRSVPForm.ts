@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { rsvpRepository } from '../../../domain/repositories/supabase-rsvp-repository';
+import { rsvpRepository } from '../../../domain/repositories/static-rsvp-repository';
 import { webhookService } from '../../../services/webhook';
 import type { RSVPResponse } from '../../../domain/models/rsvp';
 import confetti from 'canvas-confetti';
